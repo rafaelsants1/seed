@@ -1,0 +1,31 @@
+:root {
+  --color-primary: #1C3F6E;
+  --color-accent: #2C6DB5;
+  --color-surface: #FFFFFF;
+  --color-background: #F5F5F5;
+  --color-border: #E0E0E0;
+  --color-text-primary: #1A1A2E;
+  --color-text-muted: #666666;
+  --color-success: #2E7D32;
+  --color-error: #B00020;
+  --color-warning: #E65100;
+
+  --font-heading: 'IBM Plex Sans', sans-serif;
+  --font-body: 'Source Sans 3', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --border-default: 1px solid var(--color-border);
+  --radius-sm: 4px;
+  --radius-md: 6px;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
