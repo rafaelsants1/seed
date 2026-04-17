@@ -1,11 +1,10 @@
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import type { UserRole } from '../../types/auth';
-
 const navItemsByRole: Record<UserRole, string[]> = {
   aluno: ['Início', 'Minhas Provas', 'Desempenho', 'Local de Prova', 'Histórico'],
   professor: ['Início', 'Criar Prova', 'Banco de Questões', 'Turmas', 'Notas', 'Desempenho'],
-  secretaria: ['Painel', 'Avaliações', 'Banco de Questões', 'Escolas', 'Desempenho', 'Relatórios'],
+  secretaria: ['Painel', 'Gestão de Usuários', 'Avaliações', 'Banco de Questões', 'Escolas', 'Desempenho', 'Relatórios'],
 };
 
 const routeMap: Record<UserRole, Record<string, string>> = {
@@ -27,6 +26,7 @@ const routeMap: Record<UserRole, Record<string, string>> = {
   secretaria: {
     Painel: '/',
     Avaliações: '/avaliacoes',
+    'Gestão de Usuários': '/gestao-usuarios',
     'Banco de Questões': '/banco-questoes',
     Escolas: '/escolas',
     Desempenho: '/desempenho',

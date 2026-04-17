@@ -15,6 +15,7 @@ import { AvaliacoesPage } from "./pages/AvaliacoesPage";
 import { EscolasPage } from "./pages/EscolasPage";
 import { RelatoriosPage } from "./pages/RelatoriosPage";
 import { BancoQuestoesPage } from "./pages/BancoQuestoesPage";
+import { GestaoUsuariosPage } from "./pages/GestaoUsuariosPage";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path="/avaliacoes" element={<AppShell><AvaliacoesPage /></AppShell>} />
         <Route path="/escolas" element={<AppShell><EscolasPage /></AppShell>} />
         <Route path="/banco-questoes" element={<AppShell><BancoQuestoesPage /></AppShell>} />
+        <Route path="/gestao-usuarios" element={ <AppShell><GestaoUsuariosPage /></AppShell>}/>
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

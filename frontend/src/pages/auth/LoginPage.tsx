@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import type { AuthUser, UserRole } from '../../types/auth';
 
@@ -91,12 +91,14 @@ export function LoginPage() {
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-[var(--color-text-muted)]">
-          Não tem conta?{' '}
-          <Link to="/cadastro" className="text-[var(--color-accent)] hover:underline">
-            Cadastre-se
-          </Link>
-        </p>
+        <div className="mt-6 rounded-sm border border-[var(--color-border)] bg-[var(--color-background)] p-4 text-sm text-[var(--color-text-muted)]">
+          <p className="font-medium text-[var(--color-text-primary)]">Acesso institucional</p>
+          <p className="mt-2 leading-6">
+            Alunos e professores não realizam cadastro diretamente nesta plataforma.
+            O vínculo de acesso é criado pela secretaria escolar com base na matrícula
+            registrada na unidade de ensino.
+          </p>
+        </div>
       </div>
     </div>
   );
