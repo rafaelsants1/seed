@@ -43,20 +43,20 @@ export function GestaoUsuariosPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Gestão de Usuários"
-        breadcrumb={["Início", "Secretaria", "Gestão de Usuários"]}
-        subtitle="Cadastro institucional de alunos e professores com vínculo por matrícula e controle de acesso."
+        title="Gestão de Acesso"
+        breadcrumb={["Painel Macro", "Gestão de Acesso"]}
+        subtitle="Controle de alunos e professores autorizados a acessar provas, simulados e resultados do SEED Educa."
       />
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-        <StatCard label="Usuários Ativos" value={38} />
-        <StatCard label="Alunos Cadastrados" value={26} />
-        <StatCard label="Professores Cadastrados" value={12} />
-        <StatCard label="Acessos Pendentes" value={4} />
+        <StatCard label="Acessos ativos" value={38} />
+        <StatCard label="Alunos aptos à prova" value={26} />
+        <StatCard label="Professores aplicadores" value={12} />
+        <StatCard label="Acessos pendentes" value={4} />
       </div>
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
-        <AppCard title="Cadastro de Aluno">
+        <AppCard title="Liberar acesso de aluno">
           <form className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="md:col-span-2">
               <label className="mb-1 block text-sm font-medium text-[var(--color-primary)]">
@@ -119,7 +119,7 @@ export function GestaoUsuariosPage() {
           </form>
         </AppCard>
 
-        <AppCard title="Cadastro de Professor">
+        <AppCard title="Liberar acesso de professor">
           <form className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="md:col-span-2">
               <label className="mb-1 block text-sm font-medium text-[var(--color-primary)]">
@@ -183,7 +183,7 @@ export function GestaoUsuariosPage() {
         </AppCard>
       </div>
 
-      <AppCard title="Usuários Vinculados">
+      <AppCard title="Usuários vinculados ao ciclo de provas">
         <DataTable
           columns={[
             { key: "nome", label: "Nome" },
@@ -200,7 +200,7 @@ export function GestaoUsuariosPage() {
         />
       </AppCard>
 
-      <AppCard title="Regras de Vinculação" variant="compact">
+      <AppCard title="Regras de acesso às provas" variant="compact">
         <div className="space-y-2 text-sm text-[var(--color-text-muted)]">
           <p>
             O acesso do aluno é criado com base na matrícula escolar ativa na unidade de ensino.

@@ -1,4 +1,4 @@
-# SEED - Sistema de Avaliação da Secretaria da Educação
+# SEED Educa - Sistema de Provas da Secretaria da Educação
 
 Projeto acadêmico de uma plataforma institucional para gestão de provas, simulados, notas, desempenho e banco de questões.
 

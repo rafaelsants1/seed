@@ -1,0 +1,10 @@
+<svg viewBox="0 0 54 54" width="54" xmlns="http://www.w3.org/2000/svg">
+  <!-- Página sólida (esquerda) -->
+  <rect x="4" y="4" width="20" height="46" rx="2.5" fill="#1C3F6E"/>
+  <!-- Página com linhas (direita) -->
+  <rect x="28" y="4" width="20" height="46" rx="2.5" fill="none" stroke="#1C3F6E" stroke-width="2.5"/>
+  <line x1="32" y1="16" x2="44" y2="16" stroke="#2C6DB5" stroke-width="1.8"/>
+  <line x1="32" y1="23" x2="44" y2="23" stroke="#2C6DB5" stroke-width="1.8"/>
+  <line x1="32" y1="30" x2="40" y2="30" stroke="#2C6DB5" stroke-width="1.8"/>
+  <line x1="32" y1="37" x2="44" y2="37" stroke="#2C6DB5" stroke-width="1.8"/>
+</svg>

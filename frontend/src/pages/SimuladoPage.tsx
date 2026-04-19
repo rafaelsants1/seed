@@ -260,7 +260,7 @@ export function SimuladoPage() {
           </p>
           <Button
             type="button"
-            onClick={() => navigate("/dashboard/simulados")}
+            onClick={() => navigate("/simulados")}
             className="mt-6"
           >
             Voltar para simulados
@@ -332,7 +332,7 @@ export function SimuladoPage() {
 
               <Button
                 type="button"
-                onClick={() => navigate("/dashboard/performance")}
+                onClick={() => navigate("/diagnostico")}
               >
                 Ver desempenho
               </Button>
@@ -340,7 +340,7 @@ export function SimuladoPage() {
               <Button
                 type="button"
                 variant="secondary"
-                onClick={() => navigate("/dashboard/simulados")}
+                onClick={() => navigate("/simulados")}
               >
                 Voltar para simulados
               </Button>
@@ -363,7 +363,7 @@ export function SimuladoPage() {
           </p>
           <Button
             type="button"
-            onClick={() => navigate("/dashboard/simulados")}
+            onClick={() => navigate("/simulados")}
             className="mt-6"
           >
             Voltar para simulados
@@ -568,7 +568,7 @@ export function SimuladoPage() {
               <Button
                 type="button"
                 variant="secondary"
-                onClick={() => navigate("/dashboard/simulados")}
+                onClick={() => navigate("/simulados")}
               >
                 Sair do simulado
               </Button>

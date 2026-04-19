@@ -5,9 +5,13 @@ export function RegisterPage() {
     <div className="flex min-h-screen items-center justify-center bg-[var(--color-background)] p-4">
       <div className="w-full max-w-xl rounded-sm border border-[var(--color-border)] bg-[var(--color-surface)] p-8">
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 h-16 w-16 rounded-sm bg-[var(--color-border)]" />
+          <img
+            src="/brand/seed-educa-v6-principal.svg"
+            alt="SEED Educa"
+            className="mx-auto mb-4 h-16 w-auto"
+          />
           <p className="mb-1 text-sm text-[var(--color-text-muted)]">Secretaria de Educação</p>
-          <h1 className="text-lg font-semibold text-[var(--color-primary)]">SEED Estadual</h1>
+          <h1 className="sr-only">SEED Educa</h1>
           <p className="mt-2 text-sm text-[var(--color-text-muted)]">
             Cadastro institucional de usuários
           </p>

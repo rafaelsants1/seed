@@ -1,0 +1,23 @@
+<svg viewBox="0 0 64 64" width="64" xmlns="http://www.w3.org/2000/svg">
+  <defs><circle id="pt" r="3.2"/></defs>
+
+  <use href="#pt" x="8"  y="8"  fill="#1C3F6E" opacity="0.18"/>
+  <use href="#pt" x="22" y="8"  fill="#1C3F6E" opacity="0.18"/>
+  <use href="#pt" x="36" y="8"  fill="#1C3F6E" opacity="0.18"/>
+  <use href="#pt" x="50" y="8"  fill="#1C3F6E" opacity="0.18"/>
+
+  <use href="#pt" x="8"  y="22" fill="#1C3F6E" opacity="0.18"/>
+  <use href="#pt" x="22" y="22" fill="#1C3F6E"/>
+  <use href="#pt" x="36" y="22" fill="#1C3F6E"/>
+  <use href="#pt" x="50" y="22" fill="#1C3F6E" opacity="0.18"/>
+
+  <use href="#pt" x="8"  y="36" fill="#1C3F6E" opacity="0.18"/>
+  <use href="#pt" x="22" y="36" fill="#1C3F6E"/>
+  <use href="#pt" x="36" y="36" fill="#2C6DB5"/>
+  <use href="#pt" x="50" y="36" fill="#2C6DB5"/>
+
+  <use href="#pt" x="8"  y="50" fill="#1C3F6E" opacity="0.18"/>
+  <use href="#pt" x="22" y="50" fill="#1C3F6E" opacity="0.18"/>
+  <use href="#pt" x="36" y="50" fill="#2C6DB5"/>
+  <use href="#pt" x="50" y="50" fill="#1C3F6E"/>
+</svg>

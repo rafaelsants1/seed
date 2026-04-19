@@ -1,13 +1,19 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
+import { getDefaultPathByRole, isPathAllowedForRole } from '../../config/navigation';
 import { useAuth } from '../../context/AuthContext';
-import { Sidebar } from './Sidebar';
 import { Header } from './Header';
+import { Sidebar } from './Sidebar';
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
+  const location = useLocation();
 
   if (!user) {
     return <Navigate to="/login" replace />;
+  }
+
+  if (!isPathAllowedForRole(user.role, location.pathname)) {
+    return <Navigate to={getDefaultPathByRole(user.role)} replace />;
   }
 
   return (
@@ -15,9 +21,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <Sidebar />
       <Header />
       <main className="ml-60 mt-14">
-        <div className="max-w-[1280px] mx-auto p-6">
-          {children}
-        </div>
+        <div className="mx-auto max-w-[1280px] p-6">{children}</div>
       </main>
     </div>
   );

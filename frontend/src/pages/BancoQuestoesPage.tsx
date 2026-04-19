@@ -5,24 +5,78 @@ import { StatCard } from '../components/ui/StatCard';
 import { StatusBadge } from '../components/ui/StatusBadge';
 import { demoQuestionBank } from '../data/demoPortalData';
 
+const topicCoverage = [
+  { topico: 'Razões e proporções', disciplina: 'Matemática', itensAptos: 18, minimo: 12, situacao: 'Cobertura adequada' },
+  { topico: 'Inferência textual', disciplina: 'Língua Portuguesa', itensAptos: 9, minimo: 12, situacao: 'Cobertura insuficiente' },
+  { topico: 'Ecossistemas', disciplina: 'Ciências', itensAptos: 14, minimo: 10, situacao: 'Cobertura adequada' },
+];
+
+const filters = {
+  disciplinas: ['Matemática', 'Língua Portuguesa', 'Ciências', 'História'],
+  topicos: ['Razões e proporções', 'Interpretação textual', 'Ecossistemas'],
+  dificuldades: ['Baixa', 'Média', 'Alta'],
+  usos: ['Prova online', 'Simulado inteligente', 'Treino'],
+};
+
 export function BancoQuestoesPage() {
+  const activeItems = demoQuestionBank.filter((item) => item.status === 'ativo').length;
+  const reviewItems = demoQuestionBank.filter((item) => item.status === 'pendente').length;
+  const insufficientTopics = topicCoverage.filter((item) => item.itensAptos < item.minimo).length;
+
   return (
     <div className="space-y-6">
       <PageHeader
         title="Banco de Questões"
-        breadcrumb={["Início", "Banco de Questões"]}
-        subtitle="Base institucional de itens para treino, simulados e avaliações formais da rede estadual."
+        breadcrumb={["Painel de Provas", "Banco de Questões"]}
+        subtitle="Origem da montagem de provas e simulados. A IA apoia a classificação, mas a publicação depende de revisão humana."
       />
 
       <div className="grid grid-cols-4 gap-4">
-        <StatCard label="Questões ativas" value={428} />
-        <StatCard label="Aguardando revisão" value={17} />
+        <StatCard label="Itens aptos para prova" value={activeItems} />
+        <StatCard label="Itens em revisão" value={reviewItems} />
         <StatCard label="Uso em simulados" value={263} />
-        <StatCard label="Validadas por professor" value={391} />
+        <StatCard label="Tópicos com baixa cobertura" value={insufficientTopics} />
       </div>
 
+      <AppCard title="Filtros para montagem de prova">
+        <div className="grid grid-cols-4 gap-4 text-sm">
+          <div>
+            <p className="mb-2 font-medium text-[var(--color-primary)]">Disciplina</p>
+            <div className="flex flex-wrap gap-2">
+              {filters.disciplinas.map((item) => (
+                <span key={item} className="rounded-sm border border-[var(--color-border)] bg-[var(--color-background)] px-2 py-1 text-xs text-[var(--color-text-muted)]">{item}</span>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="mb-2 font-medium text-[var(--color-primary)]">Tópico</p>
+            <div className="flex flex-wrap gap-2">
+              {filters.topicos.map((item) => (
+                <span key={item} className="rounded-sm border border-[var(--color-border)] bg-[var(--color-background)] px-2 py-1 text-xs text-[var(--color-text-muted)]">{item}</span>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="mb-2 font-medium text-[var(--color-primary)]">Dificuldade</p>
+            <div className="flex flex-wrap gap-2">
+              {filters.dificuldades.map((item) => (
+                <span key={item} className="rounded-sm border border-[var(--color-border)] bg-[var(--color-background)] px-2 py-1 text-xs text-[var(--color-text-muted)]">{item}</span>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="mb-2 font-medium text-[var(--color-primary)]">Uso</p>
+            <div className="flex flex-wrap gap-2">
+              {filters.usos.map((item) => (
+                <span key={item} className="rounded-sm border border-[var(--color-border)] bg-[var(--color-background)] px-2 py-1 text-xs text-[var(--color-text-muted)]">{item}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </AppCard>
+
       <div className="grid grid-cols-[1.2fr_0.8fr] gap-4">
-        <AppCard title="Nova questão com apoio inteligente">
+        <AppCard title="Classificação assistida por IA">
           <div className="space-y-4 text-sm text-[var(--color-text-primary)]">
             <div>
               <label className="mb-1 block font-medium">Enunciado</label>
@@ -36,53 +90,41 @@ export function BancoQuestoesPage() {
                 <p className="mb-2 font-medium text-[var(--color-primary)]">Sugestões da IA</p>
                 <div className="space-y-2 rounded-sm border border-[var(--color-border)] bg-[var(--color-background)] p-3">
                   <div className="flex justify-between"><span>Disciplina</span><strong>Matemática</strong></div>
-                  <div className="flex justify-between"><span>Assunto</span><strong>Razões e proporções</strong></div>
+                  <div className="flex justify-between"><span>Tópico</span><strong>Razões e proporções</strong></div>
                   <div className="flex justify-between"><span>Dificuldade</span><strong>Média</strong></div>
-                  <div className="flex justify-between"><span>Tipo de uso</span><strong>AMBOS</strong></div>
+                  <div className="flex justify-between"><span>Uso sugerido</span><strong>Prova e simulado</strong></div>
                 </div>
               </div>
 
               <div>
-                <p className="mb-2 font-medium text-[var(--color-primary)]">Tags sugeridas</p>
-                <div className="flex flex-wrap gap-2 rounded-sm border border-[var(--color-border)] bg-[var(--color-background)] p-3">
-                  {['razão', 'percentual', '9º ano', 'diagnóstico', 'proporção'].map((tag) => (
-                    <span key={tag} className="rounded-sm border border-[var(--color-border)] bg-[var(--color-surface)] px-2 py-1 text-xs">
-                      {tag}
-                    </span>
-                  ))}
+                <p className="mb-2 font-medium text-[var(--color-primary)]">Revisão humana</p>
+                <div className="rounded-sm border border-[var(--color-border)] bg-[var(--color-background)] p-3 text-[var(--color-text-muted)]">
+                  A questão só fica apta para montagem de prova depois da validação do professor. Esse registro preserva origem, revisão e uso em aplicação.
                 </div>
-                <p className="mt-3 text-xs text-[var(--color-text-muted)]">
-                  A publicação permanece dependente de confirmação humana, conforme regra do projeto.
-                </p>
               </div>
             </div>
           </div>
         </AppCard>
 
-        <AppCard title="Critérios de publicação">
-          <div className="space-y-3 text-sm text-[var(--color-text-primary)]">
-            <div className="rounded-sm border border-[var(--color-border)] bg-[var(--color-background)] p-3">
-              <p className="font-medium">Revisão obrigatória</p>
-              <p className="mt-1 text-[var(--color-text-muted)]">Toda sugestão automática deve ser validada pelo professor antes de entrar no banco oficial.</p>
-            </div>
-            <div className="rounded-sm border border-[var(--color-border)] bg-[var(--color-background)] p-3">
-              <p className="font-medium">Classificação por tipo de uso</p>
-              <p className="mt-1 text-[var(--color-text-muted)]">As questões podem ser marcadas para treino, simulado ou ambos, conforme o edital interno.</p>
-            </div>
-            <div className="rounded-sm border border-[var(--color-border)] bg-[var(--color-background)] p-3">
-              <p className="font-medium">Rastreabilidade</p>
-              <p className="mt-1 text-[var(--color-text-muted)]">Origem da questão, revisão humana e uso pedagógico ficam registrados para auditoria.</p>
-            </div>
-          </div>
+        <AppCard title="Cobertura por tópico">
+          <DataTable
+            columns={[
+              { key: 'topico', label: 'Tópico' },
+              { key: 'disciplina', label: 'Disciplina' },
+              { key: 'itensAptos', label: 'Aptos' },
+              { key: 'situacao', label: 'Situação' },
+            ]}
+            data={topicCoverage}
+          />
         </AppCard>
       </div>
 
-      <AppCard title="Itens disponíveis no banco">
+      <AppCard title="Itens disponíveis para montagem">
         <DataTable
           columns={[
             { key: 'id', label: 'Código' },
             { key: 'disciplina', label: 'Disciplina' },
-            { key: 'assunto', label: 'Assunto' },
+            { key: 'assunto', label: 'Tópico' },
             { key: 'dificuldade', label: 'Dificuldade' },
             { key: 'tipoUso', label: 'Tipo de uso' },
             { key: 'revisaoHumana', label: 'Revisão' },

@@ -1,215 +1,235 @@
-import { useAuth } from "../context/AuthContext";
-import { StatCard } from "../components/ui/StatCard";
 import { AppCard } from "../components/ui/AppCard";
-import { PageHeader } from "../components/ui/PageHeader";
 import { DataTable } from "../components/ui/DataTable";
+import { PageHeader } from "../components/ui/PageHeader";
+import { StatCard } from "../components/ui/StatCard";
 import { StatusBadge } from "../components/ui/StatusBadge";
+import { useAuth } from "../context/AuthContext";
+import { demoQuestionBank, professorDemo, proofPerformanceDemo, secretariaDemo } from "../data/demoPortalData";
 
-// Mock data for demonstration
-const mockStudentData = {
-  provasRealizadas: 12,
-  mediaGeral: 78,
-  proximaProva: "15/05",
-  ultimasProvas: [
-    { id: 1, nome: "Simulado Matemática", data: "10/04", nota: 85, status: "encerrado" as const },
-    { id: 2, nome: "Simulado Português", data: "03/04", nota: 72, status: "encerrado" as const },
-    { id: 3, nome: "Simulado Ciências", data: "28/03", nota: 90, status: "encerrado" as const },
-  ],
-  desempenhoPorComponente: [
-    { subject: "Matemática", score: 85 },
-    { subject: "Português", score: 72 },
-    { subject: "Ciências", score: 90 },
-    { subject: "História", score: 68 },
-    { subject: "Geografia", score: 75 },
-  ],
-};
-
-const mockProfessorData = {
-  turmasAtivas: 5,
-  provasCriadas: 23,
-  mediaTurma: 74,
-  turmas: [
-    { id: 1, nome: "9º Ano A", alunos: 32, media: 78 },
-    { id: 2, nome: "9º Ano B", alunos: 28, media: 72 },
-    { id: 3, nome: "1º Médio A", alunos: 35, media: 80 },
-  ],
-  notasPendentes: [
-    { id: 1, prova: "Simulado Matemática", turma: "9º Ano A", vencimento: "12/04" },
-    { id: 2, prova: "Simulado Português", turma: "9º Ano B", vencimento: "14/04" },
-  ],
-};
-
-const mockSecretariaData = {
-  totalAlunos: 1250,
-  escolas: 12,
-  provasAplicadas: 156,
-  mediaEstadual: 71,
-  desempenhoPorEscola: [
-    { id: 1, escola: "Escola Estadual A", alunos: 450, media: 78, status: "ativo" as const },
-    { id: 2, escola: "Escola Estadual B", alunos: 320, media: 65, status: "ativo" as const },
-    { id: 3, escola: "Escola Estadual C", alunos: 280, media: 82, status: "ativo" as const },
-    { id: 4, escola: "Escola Estadual D", alunos: 200, media: 70, status: "encerrado" as const },
-  ],
-  alertas: [
-    { id: 1, tipo: "Baixo desempenho", escola: "Escola Estadual B", descricao: "Média abaixo de 65%" },
-    { id: 2, tipo: "Atraso", escola: "Escola Estadual D", descricao: "Relatório pendente" },
-  ],
-  proximasAvaliacoes: [
-    { id: 1, nome: "Avaliação Bimestral 1", data: "20/04", escolas: 12 },
-    { id: 2, nome: "Avaliação Bimestral 2", data: "15/05", escolas: 12 },
-  ],
-};
+function ErrorBar({ value }: { value: number }) {
+  return (
+    <div className="flex items-center gap-3">
+      <div className="h-2 w-28 rounded-sm bg-[var(--color-border)]">
+        <div className="h-2 rounded-sm bg-[var(--color-accent)]" style={{ width: `${value}%` }} />
+      </div>
+      <span className="text-xs font-medium text-[var(--color-primary)]">{value}%</span>
+    </div>
+  );
+}
 
 export function DashboardPage() {
   const { user } = useAuth();
 
   if (!user) return null;
 
-  const renderDashboardByRole = () => {
-    switch (user.role) {
-      case 'aluno':
-        return (
-          <>
-            {/* Row 1: 3x StatCard */}
-            <div className="grid grid-cols-3 gap-4 mb-6">
-              <StatCard label="Provas Realizadas" value={mockStudentData.provasRealizadas} />
-              <StatCard label="Média Geral" value={`${mockStudentData.mediaGeral}%`} />
-              <StatCard label="Próxima Prova" value={mockStudentData.proximaProva} />
-            </div>
+  if (user.role === 'aluno') {
+    const student = proofPerformanceDemo.aluno;
+    const latestExam = student.provasRecentes[0];
+    const nextExam = { nome: 'Avaliacao de Matematica', data: '20/05/2026', horario: '08:00' };
 
-            {/* Row 2 */}
-            <div className="grid grid-cols-2 gap-4">
-              <AppCard title="Últimas Provas">
-                <DataTable
-                  columns={[
-                    { key: 'nome', label: 'Prova' },
-                    { key: 'data', label: 'Data' },
-                    { key: 'nota', label: 'Nota' },
-                    { key: 'status', label: 'Status', render: (_, row) => <StatusBadge status={row.status} /> },
-                  ]}
-                  data={mockStudentData.ultimasProvas}
-                />
-              </AppCard>
+    return (
+      <div className="space-y-6">
+        <PageHeader
+          title="Resumo das Minhas Provas"
+          breadcrumb={['Inicio']}
+          subtitle={student.base}
+        />
 
-              <AppCard title="Desempenho por Componente">
-                <div className="space-y-2">
-                  {mockStudentData.desempenhoPorComponente.map((item) => (
-                    <div key={item.subject} className="flex items-center justify-between text-sm">
-                      <span className="text-[var(--color-text-muted)]">{item.subject}</span>
-                      <span className="font-medium text-[var(--color-primary)]">{item.score}%</span>
+        <div className="grid grid-cols-4 gap-4">
+          <StatCard label="Proxima prova" value={nextExam.data} />
+          <StatCard label="Prova em andamento" value="1 disponivel" />
+          <StatCard label="Simulados disponiveis" value={4} />
+          <StatCard label="Ultimo resultado" value={`${latestExam.nota}%`} />
+        </div>
+
+        <div className="grid grid-cols-[1.15fr_0.85fr] gap-4">
+          <AppCard title="Seu desempenho nas ultimas provas">
+            <DataTable
+              columns={[
+                { key: 'prova', label: 'Prova' },
+                { key: 'tipo', label: 'Tipo' },
+                { key: 'acertos', label: 'Acertos', render: (_, row) => `${row.acertos}/${row.total}` },
+                { key: 'nota', label: 'Resultado', render: (value) => `${value}%` },
+              ]}
+              data={student.provasRecentes}
+            />
+          </AppCard>
+
+          <AppCard title="Principais dificuldades por topico">
+            <div className="space-y-4">
+              {student.lacunasPorTopico.map((item) => (
+                <div key={item.topico} className="rounded-sm border border-[var(--color-border)] bg-[var(--color-background)] p-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <div>
+                      <p className="text-sm font-medium text-[var(--color-text-primary)]">{item.topico}</p>
+                      <p className="text-xs text-[var(--color-text-muted)]">{item.disciplina}</p>
                     </div>
-                  ))}
+                    <ErrorBar value={item.erro} />
+                  </div>
+                  <p className="mt-2 text-xs text-[var(--color-text-muted)]">{item.recomendacao}</p>
                 </div>
-              </AppCard>
+              ))}
             </div>
-          </>
-        );
+          </AppCard>
+        </div>
 
-      case 'professor':
-        return (
-          <>
-            {/* Row 1: 3x StatCard */}
-            <div className="grid grid-cols-3 gap-4 mb-6">
-              <StatCard label="Turmas Ativas" value={mockProfessorData.turmasAtivas} />
-              <StatCard label="Provas Criadas" value={mockProfessorData.provasCriadas} />
-              <StatCard label="Média da Turma" value={`${mockProfessorData.mediaTurma}%`} />
+        <AppCard title="Proxima aplicacao">
+          <div className="grid grid-cols-4 gap-4 text-sm">
+            <div>
+              <p className="text-[var(--color-text-muted)]">Prova</p>
+              <p className="font-medium text-[var(--color-text-primary)]">{nextExam.nome}</p>
             </div>
-
-            {/* Row 2 */}
-            <div className="grid grid-cols-2 gap-4">
-              <AppCard title="Turmas">
-                <DataTable
-                  columns={[
-                    { key: 'nome', label: 'Turma' },
-                    { key: 'alunos', label: 'Alunos' },
-                    { key: 'media', label: 'Média' },
-                  ]}
-                  data={mockProfessorData.turmas}
-                />
-              </AppCard>
-
-              <AppCard title="Notas Pendentes">
-                <div className="space-y-3">
-                  {mockProfessorData.notasPendentes.map((item) => (
-                    <div key={item.id} className="p-3 bg-[var(--color-background)] rounded-sm">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="text-sm font-medium text-[var(--color-text-primary)]">{item.prova}</p>
-                          <p className="text-xs text-[var(--color-text-muted)]">{item.turma}</p>
-                        </div>
-                        <span className="text-xs text-[var(--color-error)]">Vence: {item.vencimento}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </AppCard>
+            <div>
+              <p className="text-[var(--color-text-muted)]">Data</p>
+              <p className="font-medium text-[var(--color-text-primary)]">{nextExam.data}</p>
             </div>
-          </>
-        );
-
-      case 'secretaria':
-        return (
-          <>
-            {/* Row 1: 4x StatCard */}
-            <div className="grid grid-cols-4 gap-4 mb-6">
-              <StatCard label="Total Alunos" value={mockSecretariaData.totalAlunos} />
-              <StatCard label="Escolas" value={mockSecretariaData.escolas} />
-              <StatCard label="Provas Aplicadas" value={mockSecretariaData.provasAplicadas} />
-              <StatCard label="Média Estadual" value={`${mockSecretariaData.mediaEstadual}%`} />
+            <div>
+              <p className="text-[var(--color-text-muted)]">Horario</p>
+              <p className="font-medium text-[var(--color-text-primary)]">{nextExam.horario}</p>
             </div>
-
-            {/* Row 2: full-width */}
-            <AppCard title="Desempenho por Escola" variant="default">
-              <DataTable
-                columns={[
-                  { key: 'escola', label: 'Escola' },
-                  { key: 'alunos', label: 'Alunos' },
-                  { key: 'media', label: 'Média' },
-                  { key: 'status', label: 'Status', render: (_, row) => <StatusBadge status={row.status} /> },
-                ]}
-                data={mockSecretariaData.desempenhoPorEscola}
-              />
-            </AppCard>
-
-            {/* Row 3 */}
-            <div className="grid grid-cols-2 gap-4">
-              <AppCard title="Alertas">
-                <div className="space-y-3">
-                  {mockSecretariaData.alertas.map((alert) => (
-                    <div key={alert.id} className="p-3 bg-[var(--color-background)] rounded-sm border-l-4 border-[var(--color-warning)]">
-                      <p className="text-sm font-medium text-[var(--color-text-primary)]">{alert.tipo}</p>
-                      <p className="text-xs text-[var(--color-text-muted)]">{alert.escola}: {alert.descricao}</p>
-                    </div>
-                  ))}
-                </div>
-              </AppCard>
-
-              <AppCard title="Próximas Avaliações">
-                <div className="space-y-3">
-                  {mockSecretariaData.proximasAvaliacoes.map((avaliacao) => (
-                    <div key={avaliacao.id} className="flex items-center justify-between p-3 bg-[var(--color-background)] rounded-sm">
-                      <div>
-                        <p className="text-sm font-medium text-[var(--color-text-primary)]">{avaliacao.nome}</p>
-                        <p className="text-xs text-[var(--color-text-muted)]">{avaliacao.escolas} escolas</p>
-                      </div>
-                      <span className="text-sm font-medium text-[var(--color-accent)]">{avaliacao.data}</span>
-                    </div>
-                  ))}
-                </div>
-              </AppCard>
+            <div>
+              <p className="text-[var(--color-text-muted)]">Impacto</p>
+              <p className="font-medium text-[var(--color-primary)]">Atualiza o diagnostico</p>
             </div>
-          </>
-        );
+          </div>
+        </AppCard>
+      </div>
+    );
+  }
 
-      default:
-        return <div className="text-[var(--color-text-muted)]">Dashboard não disponível para este perfil</div>;
-    }
-  };
+  if (user.role === 'professor') {
+    const professor = proofPerformanceDemo.professor;
+    const pendingQuestions = demoQuestionBank.filter((item) => item.status === 'pendente').length;
+    const nextApplications = professorDemo.provasPlanejadas.filter((item) => item.status === 'agendado').length;
+
+    return (
+      <div className="space-y-6">
+        <PageHeader
+          title="Painel de Provas"
+          breadcrumb={['Painel de Provas']}
+          subtitle={professor.base}
+        />
+
+        <div className="grid grid-cols-4 gap-4">
+          <StatCard label="Provas em preparacao" value={professorDemo.provasPlanejadas.length} />
+          <StatCard label="Aplicacoes proximas" value={nextApplications} />
+          <StatCard label="Questoes em revisao" value={pendingQuestions} />
+          <StatCard label="Correcoes pendentes" value={professorDemo.notasPendentes.length} />
+        </div>
+
+        <div className="grid grid-cols-[1fr_1fr] gap-4">
+          <AppCard title="Topicos com maior erro na turma">
+            <DataTable
+              columns={[
+                { key: 'topico', label: 'Topico' },
+                { key: 'disciplina', label: 'Disciplina' },
+                { key: 'turma', label: 'Turma' },
+                { key: 'erro', label: 'Erro', render: (value) => <ErrorBar value={Number(value)} /> },
+              ]}
+              data={professor.topicosCriticos}
+            />
+          </AppCard>
+
+          <AppCard title="Alunos em risco (baseado em prova)">
+            <DataTable
+              columns={[
+                { key: 'aluno', label: 'Aluno' },
+                { key: 'turma', label: 'Turma' },
+                { key: 'media', label: 'Media', render: (value) => `${value}%` },
+                { key: 'principalTopico', label: 'Topico critico' },
+              ]}
+              data={professor.alunosEmRisco}
+            />
+          </AppCard>
+        </div>
+
+        <AppCard title="Provas em preparacao">
+          <DataTable
+            columns={[
+              { key: 'titulo', label: 'Prova' },
+              { key: 'turma', label: 'Turma' },
+              { key: 'data', label: 'Data' },
+              { key: 'questoes', label: 'Questoes' },
+              { key: 'status', label: 'Status', render: (_, row) => <StatusBadge status={row.status} /> },
+            ]}
+            data={professorDemo.provasPlanejadas}
+          />
+        </AppCard>
+      </div>
+    );
+  }
+
+  const secretaria = proofPerformanceDemo.secretaria;
+  const operationalAlerts = [
+    { alerta: 'Baixa participacao', escola: 'Centro de Ensino Frei Paulo', aplicacao: 'Simulado SEED Educa', impacto: '81% de presenca' },
+    { alerta: 'Resultado abaixo da media', escola: 'Escola Estadual Valadares', aplicacao: 'Simulado SEED Educa', impacto: '62% de media' },
+  ];
 
   return (
-    <div>
-      <PageHeader title="Painel" breadcrumb={['Início']} />
-      {renderDashboardByRole()}
+    <div className="space-y-6">
+      <PageHeader
+        title="Painel Macro"
+        breadcrumb={['Painel Macro']}
+        subtitle={secretaria.base}
+      />
+
+      <div className="grid grid-cols-4 gap-4">
+        <StatCard label="Aplicacoes em andamento" value={1} />
+        <StatCard label="Aplicacoes previstas" value={secretariaDemo.avaliacoes.length} />
+        <StatCard label="Provas publicadas" value={156} />
+        <StatCard label="Escolas abaixo da media" value={secretaria.escolasAbaixoMedia.length} />
+      </div>
+
+      <div className="grid grid-cols-[1fr_1fr] gap-4">
+        <AppCard title="Desempenho por aplicacao">
+          <DataTable
+            columns={[
+              { key: 'prova', label: 'Aplicacao' },
+              { key: 'media', label: 'Media', render: (value) => `${value}%` },
+              { key: 'escolas', label: 'Escolas' },
+            ]}
+            data={secretaria.mediaPorProva}
+          />
+        </AppCard>
+
+        <AppCard title="Escolas abaixo da media">
+          <DataTable
+            columns={[
+              { key: 'escola', label: 'Escola' },
+              { key: 'municipio', label: 'Municipio' },
+              { key: 'prova', label: 'Prova' },
+              { key: 'media', label: 'Media', render: (value) => `${value}%` },
+            ]}
+            data={secretaria.escolasAbaixoMedia}
+          />
+        </AppCard>
+      </div>
+
+      <div className="grid grid-cols-[1fr_1fr] gap-4">
+        <AppCard title="Participacao por escola">
+          <DataTable
+            columns={[
+              { key: 'escola', label: 'Escola' },
+              { key: 'aplicacao', label: 'Aplicacao' },
+              { key: 'participacao', label: 'Participacao' },
+              { key: 'media', label: 'Media', render: (value) => `${value}%` },
+            ]}
+            data={secretaria.comparativoEscolas}
+          />
+        </AppCard>
+
+        <AppCard title="Alertas operacionais de prova">
+          <DataTable
+            columns={[
+              { key: 'alerta', label: 'Alerta' },
+              { key: 'escola', label: 'Escola' },
+              { key: 'aplicacao', label: 'Aplicacao' },
+              { key: 'impacto', label: 'Impacto' },
+            ]}
+            data={operationalAlerts}
+          />
+        </AppCard>
+      </div>
     </div>
   );
 }
