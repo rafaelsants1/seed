@@ -5,6 +5,7 @@ import { StatCard } from '../components/ui/StatCard';
 import { StatusBadge } from '../components/ui/StatusBadge';
 import { useAuth } from '../context/AuthContext';
 import { professorDemo, proofPerformanceDemo } from '../data/demoPortalData';
+import { Link } from 'react-router-dom';
 
 export function NotasPage() {
   const { user } = useAuth();
@@ -21,6 +22,12 @@ export function NotasPage() {
           breadcrumb={["Início", "Resultados"]}
           subtitle={`${student.base}. Cada resultado alimenta o diagnóstico por IA e a recomendação de estudo.`}
         />
+
+        <div className="flex justify-end">
+          <Link to="/diagnostico" className="rounded-sm border border-[var(--color-border)] px-3 py-2 text-sm text-[var(--color-primary)] hover:bg-[var(--color-background)]">
+            Ver análise detalhada
+          </Link>
+        </div>
 
         <div className="grid grid-cols-3 gap-4">
           <StatCard label="Provas concluídas" value={student.provasRecentes.length} />
@@ -40,6 +47,12 @@ export function NotasPage() {
             ]}
             data={student.provasRecentes}
           />
+        </AppCard>
+
+        <AppCard title="Baseado nesta prova" variant="compact">
+          <p className="text-sm text-[var(--color-text-muted)]">
+            A análise detalhada mostra lacunas por tópico, comparação com a média e recomendação de estudo.
+          </p>
         </AppCard>
       </div>
     );

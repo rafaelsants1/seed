@@ -231,6 +231,11 @@ export function SimuladoPage() {
       }
     );
   }, [result, totalQuestions]);
+  const referenceAverage = 68;
+  const comparisonText =
+    computedResult.score >= referenceAverage
+      ? `Acima da média da aplicação (${referenceAverage}%).`
+      : `Abaixo da média da aplicação (${referenceAverage}%).`;
 
   if (isLoading) {
     return (
@@ -273,43 +278,46 @@ export function SimuladoPage() {
   if (isFinished) {
     return (
       <div className="max-w-5xl mx-auto px-4 py-8 pb-24 md:pb-8">
-        <div className="bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden">
-          <div className="border-b border-gray-100 bg-gradient-to-r from-blue-900 to-blue-700 px-6 py-6 text-white">
-            <p className="text-sm font-medium text-blue-100">
-              Resultado do simulado
+        <div className="overflow-hidden rounded-sm border border-[var(--color-border)] bg-[var(--color-surface)] shadow-sm">
+          <div className="border-b border-[var(--color-border)] bg-[var(--color-primary)] px-6 py-6 text-white">
+            <p className="text-sm font-medium text-white/80">
+              Prova finalizada
             </p>
-            <h1 className="text-3xl font-bold mt-1">
+            <h1 className="mt-1 text-2xl font-semibold">
               {getExamTitle(currentExam)}
             </h1>
-            <p className="text-sm text-blue-100 mt-2">
+            <p className="mt-2 text-sm text-white/80">
+              Baseado nesta prova
+            </p>
+            <p className="mt-2 text-sm text-white/80">
               {getExamSubject(currentExam)} • {totalQuestions} questões
             </p>
           </div>
 
           <div className="p-6">
             <div className="grid gap-4 md:grid-cols-4">
-              <div className="rounded-2xl bg-blue-50 p-4 border border-blue-100">
-                <p className="text-sm text-gray-600">Nota final</p>
-                <p className="text-3xl font-bold text-blue-900 mt-1">
+              <div className="rounded-sm border border-[var(--color-border)] bg-[var(--color-background)] p-4">
+                <p className="text-sm text-[var(--color-text-muted)]">Pontuação</p>
+                <p className="mt-1 text-3xl font-semibold text-[var(--color-primary)]">
                   {computedResult.score}%
                 </p>
               </div>
 
-              <div className="rounded-2xl bg-gray-50 p-4 border border-gray-200">
-                <p className="text-sm text-gray-600">Acertos</p>
-                <p className="text-3xl font-bold text-gray-900 mt-1">
-                  {computedResult.correctAnswers}
+              <div className="rounded-sm border border-[var(--color-border)] bg-[var(--color-background)] p-4">
+                <p className="text-sm text-[var(--color-text-muted)]">Acertos</p>
+                <p className="mt-1 text-3xl font-semibold text-[var(--color-text-primary)]">
+                  {computedResult.correctAnswers}/{computedResult.totalQuestions}
                 </p>
               </div>
 
-              <div className="rounded-2xl bg-gray-50 p-4 border border-gray-200">
-                <p className="text-sm text-gray-600">Erros</p>
-                <p className="text-3xl font-bold text-gray-900 mt-1">
+              <div className="rounded-sm border border-[var(--color-border)] bg-[var(--color-background)] p-4">
+                <p className="text-sm text-[var(--color-text-muted)]">Erros</p>
+                <p className="mt-1 text-3xl font-semibold text-[var(--color-text-primary)]">
                   {computedResult.wrongAnswers}
                 </p>
               </div>
 
-              <div className="rounded-2xl bg-gray-50 p-4 border border-gray-200">
+              <div className="rounded-sm border border-[var(--color-border)] bg-[var(--color-background)] p-4">
                 <p className="text-sm text-gray-600">Não respondidas</p>
                 <p className="text-3xl font-bold text-gray-900 mt-1">
                   {computedResult.unanswered}
@@ -317,8 +325,14 @@ export function SimuladoPage() {
               </div>
             </div>
 
-            <div className="mt-6 rounded-2xl border border-gray-200 p-4 bg-gray-50">
-              <p className="text-sm text-gray-600">
+            <div className="mt-6 rounded-sm border border-[var(--color-border)] bg-[var(--color-background)] p-4">
+              <p className="text-sm font-medium text-[var(--color-primary)]">
+                Resumo da prova
+              </p>
+              <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+                {comparisonText} A análise detalhada usa esta prova para apontar lacunas por tópico.
+              </p>
+              <p className="hidden">
                 O resultado foi calculado por uma camada de serviço mock.
                 Depois, você pode substituir essa implementação por uma chamada
                 real ao backend.
@@ -334,7 +348,7 @@ export function SimuladoPage() {
                 type="button"
                 onClick={() => navigate("/diagnostico")}
               >
-                Ver desempenho
+                Ver análise detalhada
               </Button>
 
               <Button
